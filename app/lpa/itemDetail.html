@@ -325,7 +325,7 @@
 						document.addEventListener("plusready", _this.plusReady, false)
 					}
 					
-					//this.initData();
+					this.initData();
 				},
 				methods: {
 					plusReady: function() {
@@ -396,24 +396,17 @@
 					},
 					initData: function() {
 						var _this = this;
-						//console.log(JSON.parse(getLsItem("learServerItemList")));
 						var _userData = JSON.parse(getLsItem("loginData"));
 						var _itemList = JSON.parse(getLsItem('itemList'));
-						//var _itemData = JSON.parse(getLsItem("learServerItemList"));
-						//console.log(_this.itemList);
 						var _nokItemIndex = JSON.parse(getLsItem("nowNokItemIndex"));
 						var _lpaItemData = JSON.parse(getLsItem("lpaItemData"));
-						//console.log(JSON.stringify(_nokItemIndex));
 						var _nowData = {};
 						for(var i = 0; i < _lpaItemData.length; i++) {
-							//console.log(_lpaItemData[i].nokFormData);
 							if(_lpaItemData[i].nokFormData.itemSubId == _nokItemIndex) {
 								_nowData = _lpaItemData[i].nokFormData;
 							}
 						}
 						_this.itemList = _nowData;
-						console.log(JSON.stringify(_this.itemList));
-						//console.log(_lpaItemData);
 						_this.defectName = _this.itemList.itemName;
 						_this.describe = _this.itemList.describe;
 						_this.actionMeasure = _this.itemList.actionMeasure;
@@ -421,58 +414,17 @@
 						_this.solverName = _this.itemList.solverName;
 						_this.solver = _this.itemList.solver;
 						mAjax(_url + "learServer/getAllDepartments", {
-							//factoryId: _userData.factoryId
 						}, function(data) {
 							_this.departments = data.data;
-							console.log(JSON.stringify(data.data));
+							//console.log(JSON.stringify(data.data));
 						})
 						mAjax(_url + "learServer/getQuestionTypes", {
 							field01: _itemList.field01
 						}, function(data) {
-							console.log(data)
+							//console.log(data)
 							_this.questionTypes = data.data;
-							console.log(JSON.stringify(data.data));
 						})
-					//	_this.initImags();
-						//已审核。只需获取图片接口即可
-						/*if(_itemData.solveMethod != '' && _itemData.solveMethod != null){
-							console.log(1111);
-							
-							_this.describe = _itemData.describe;
-							_this.actionMeasure = _itemData.actionMeasure;
-							_this.station = _itemData.station;
-							_this.solverName = _itemData.solverName;
-						}else if((_itemData.solveMethod == '' || _itemData.solveMethod == null) && _itemData.auditResult == '不符合'){
-								var _params = {
-								createDate : _itemList.createDate == FormatDateYMDHMS(new Date()) ? '' : _itemList.createDate,
-								workDate : FormatDateYMD(_itemList.workDate),
-								auditorId : _itemList.userName,
-								stepId : _itemList.stepId,
-								groupId :_itemList.groupId,
-								listSubId : _itemList.listSubId,
-								itemSubId : _itemData.itemSubId
-							}
-							mAjax(_url+"learServer/getListItemRecord",_params,function(data){
-								//console.log(data);
-								_this.describe = data.data.describe;
-								_this.actionMeasure = data.data.actionMeasure;
-								_this.station = data.data.station;
-								_this.solverName = data.data.solverName;
-								//console.log(data);
-							})
-						}*/
-						/*var _params = {
-							createDate : _createDate,
-							workDate : _workDate,
-							auditorId : $userName,
-							stepId : _stepId,
-							groupId : _groupId,
-							listSubId : _listSubId,
-							itemSubId : _itemSubId
-						}
-						mAjax(_url+"learServer/getListItemRecord",_params,function(data){
-							
-						})*/
+						_this.initImags();
 					},
 					onTapOpenRDepartment: function() {
 						//mui('#rDepartmentType').popover('toggle')
@@ -495,7 +447,6 @@
 					},
 					onTapOpenUserData: function() {
 						var _this = this;
-						console.log(_this.station);
 						if(_this.station == '' || _this.station == null){
 							mui.toast("请先选择部门！！！");
 							return;

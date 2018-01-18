@@ -280,14 +280,14 @@
 							</select>
 						</div>
 						<div class="mui-input-row item-flex">
-							<label class="label-end">小组成员编号:</label>
-							<input class="label-input-gray" v-model="field02" style="background: white !important;color: black;" type="text" style="font-size: 1rem;" v-model="teamUsersNo">
+							<label class="label-end">小组成员姓名:</label>
+							<input class="label-input-arrow" v-model="field03" readonly type="text" @tap="selectTeamUsers">
 						</div>
 					</div>
 					<div class="form-item">
 						<div class="mui-input-row item-flex">
-							<label class="label-end">小组成员姓名:</label>
-							<input class="label-input-gray" readonly type="text" v-model="teamUsersName">
+							<label class="label-end">小组成员编号:</label>
+							<input class="label-input-gray" v-model="field02" style="background: white !important;color: black;" type="text" style="font-size: 1rem;" readonly>
 						</div>
 						<div class="mui-input-row item-flex">
 
@@ -335,25 +335,25 @@
 								<div class="mui-content mui-scroll-wrapper" style="height: 90%;position: relative;">
 									<div class="mui-scroll">
 										<ul class="mui-table-view mui-grid-view">
-											<li class="mui-table-view-cell mui-media mui-col-xs-6" style="    width: 100%;background: #ccc;padding-bottom: .5rem;padding-top: .5rem;margin-bottom: .5rem;">
-												<!--<span style="font-size:1rem;color: black;" v-text="selectAssessor.userDescription"></span>-->
+											<li class="mui-table-view-cell mui-media mui-col-xs-6" style="    width: 100%;background: #ccc;padding-bottom: .5rem;padding-top: .5rem;margin-bottom: .5rem;" v-for="(selected,index) in selectAssessors" @tap="onTapCancleSelectAssessor(selected,index)">
+												<span style="font-size:1rem;color: black;" v-text="selected.userDescription"></span>
 											</li>
 										</ul>
 									</div>
 								</div>
-								<button class="mui-text-center" style="color: #aaa;z-index: 999;background: #eb2f1b;width: 100%;font-size: 1.2rem;padding-top: .5rem; padding-bottom: .5rem;">确认所选人员</button>
+								<button class="mui-text-center" style="color: #aaa;z-index: 999;background: #eb2f1b;width: 100%;font-size: 1.2rem;padding-top: .5rem; padding-bottom: .5rem;" @tap="onTapSureSelect">确认所选人员</button>
 							</div>
 							<div style="flex: 5;height: 100%;">
 								<div class="mui-content mui-scroll-wrapper" style="height: 100%;position: relative;">
 									<div class="mui-scroll">
 										<!--<div class="mui-text-center" >没有数据</div>-->
 										<ul class="mui-table-view mui-grid-view">
-											<li class="mui-table-view-cell mui-media mui-col-xs-4">
-												<!--<div class="mui-card" style="       background: #2387f4;">
-													<div class="mui-card-header mui-card-media" :class="{isActive:user.isActive}">
-														<span style="font-size:1rem;color: white;" v-text="user.userDescription"></span>
+											<li class="mui-table-view-cell mui-media mui-col-xs-4" v-for="(teamUser,index) in teamUsers" @tap="onTapSelectAssessorItem(teamUser,index)">
+												<div class="mui-card" style="       background: #2387f4;">
+													<div class="mui-card-header mui-card-media" :class="{isActive:teamUser.isActive}">
+														<span style="font-size:1rem;color: white;" v-text="teamUser.userDescription"></span>
 													</div>
-												</div>-->
+												</div>
 											</li>
 										</ul>
 									</div>
@@ -362,7 +362,7 @@
 						</div>
 					</div>
 					<div class="indexed-list" style="flex: 1;margin: .5rem;">
-						<!--<a v-for="(letter,index) in letters" :class="{select_letter:letter.isSelect}" @tap="selectLetter(letter,index)" style="font-weight: bold;">{{letter.name}}</a>-->
+						<a v-for="(letter,index) in letters" :class="{select_letter:letter.isSelect}" @tap="selectLetter(letter,index)" style="font-weight: bold;">{{letter.name}}</a>
 					</div>
 				</div>
 			</div>
@@ -402,10 +402,120 @@
 							value: '晚班'
 						}
 					],
+					teamUsers: [],
+					teamUsers2: [],
 					teamUsersNo: '',
 					teamUsersName: '',
-					field02: '',
-					teamUsers: '' //索引用到的字段
+					field02: '', //小组成员编号
+					field03: '', //小组人员名
+					selectTeamUser: '', //索引用到的字段
+					maps: new Map(),
+					selectAssessors: [],
+					letters: [{
+						id: 1,
+						name: 'A',
+						isSelect: true
+					}, {
+						id: 2,
+						name: 'B',
+						isSelect: false
+					}, {
+						id: 3,
+						name: 'C',
+						isSelect: false
+					}, {
+						id: 4,
+						name: 'D',
+						isSelect: false
+					}, {
+						id: 5,
+						name: 'E',
+						isSelect: false
+					}, {
+						id: 6,
+						name: 'F',
+						isSelect: false
+					}, {
+						id: 7,
+						name: 'G',
+						isSelect: false
+					}, {
+						id: 8,
+						name: 'H',
+						isSelect: false
+					}, {
+						id: 9,
+						name: 'I',
+						isSelect: false
+					}, {
+						id: 10,
+						name: 'J',
+						isSelect: false
+					}, {
+						id: 11,
+						name: 'K',
+						isSelect: false
+					}, {
+						id: 12,
+						name: 'L',
+						isSelect: false
+					}, {
+						id: 13,
+						name: 'M',
+						isSelect: false
+					}, {
+						id: 14,
+						name: 'N',
+						isSelect: false
+					}, {
+						id: 15,
+						name: 'O',
+						isSelect: false
+					}, {
+						id: 16,
+						name: 'P',
+						isSelect: false
+					}, {
+						id: 17,
+						name: 'Q',
+						isSelect: false
+					}, {
+						id: 18,
+						name: 'R',
+						isSelect: false
+					}, {
+						id: 19,
+						name: 'S',
+						isSelect: false
+					}, {
+						id: 20,
+						name: 'T',
+						isSelect: false
+					}, {
+						id: 21,
+						name: 'U',
+						isSelect: false
+					}, {
+						id: 22,
+						name: 'V',
+						isSelect: false
+					}, {
+						id: 23,
+						name: 'W',
+						isSelect: false
+					}, {
+						id: 24,
+						name: 'X',
+						isSelect: false
+					}, {
+						id: 25,
+						name: 'Y',
+						isSelect: false
+					}, {
+						id: 26,
+						name: 'Z',
+						isSelect: false
+					}],
 				},
 				computed: {
 					reMsg: function() {
@@ -447,9 +557,20 @@
 						_this.lineTitle = _itemList.listName;
 						_this.lineName = _itemList.field01;
 						_this.field02 = _itemList.field02;
+						_this.field03 = _itemList.field03;
 						_this.lpaDate = (_itemList.workDate != null) ? FormatDateYMD(_itemList.workDate) : FormatDateYMD(new Date());
 						_this.lpaUser = _userData.userDescription;
 						_this.classes = _itemList.classes;
+						mAjax(_url + "learServer/getAllUsersByFactory", {
+							departmentId: ''
+						}, function(data) {
+							/*for(var i=0;i<data.data.length;i++){
+								data.data[i].isActive = false;
+							}*/
+							_this.teamUsers = data.data;
+							_this.teamUsers2 = _this.teamUsers;
+							//console.log(data);
+						})
 						//console.log(_itemList);
 						//_this.formTitle = "产线:" + _itemList.field01 + " 区域:" + _itemList.field02 + " 工位:" + _itemList.field03;
 						mAjax(_url + 'learServer/getPerItemDetail', {
@@ -511,7 +632,6 @@
 					},
 					//不符合项
 					onTapGoCross: function(item, index) {
-						//	console.log(item);
 						item.auditResult = "不符合";
 						//item.nOKStatus = "不符合";
 						//return;
@@ -566,11 +686,12 @@
 					//陪审popover点击项
 					onTapSelectAssessorItem: function(item, index) {
 						var _this = this;
+						console.log(item);
 						item.isActive = !item.isActive;
 						if(item.isActive) {
-							_this.maps.set(item.id, item);
+							_this.maps.set(item.userId, item);
 						} else {
-							_this.maps.delete(item.id)
+							_this.maps.delete(item.userId)
 						}
 						_this.selectAssessors = [];
 						_this.maps.forEach(function(value, key) {
@@ -582,11 +703,25 @@
 					onTapCancleSelectAssessor: function(item, index) {
 						var _this = this;
 						item.isActive = !item.isActive;
-						_this.maps.delete(item.id);
+						_this.maps.delete(item.userId);
 						_this.selectAssessors = [];
 						_this.maps.forEach(function(value, key) {
 							_this.selectAssessors.push(value);
 						})
+					},
+					//确认所选人员
+					onTapSureSelect: function() {
+						var _this = this;
+						var _arr = [];
+						var _arr2 = [];
+						for(var i = 0; i < _this.selectAssessors.length; i++) {
+							_arr.push(_this.selectAssessors[i].userDescription);
+							_arr2.push(_this.selectAssessors[i].userName);
+						}
+						_this.field03 = _arr.join(";"); //_arr.toString();
+						_this.field02 = _arr2.join(";");
+						//_this.assessors = JSON.stringify(_this.selectAssessors.userDescription).toString();
+						mui('#assessorPopover').popover('toggle');
 					},
 					//选择区域名称
 					onTapSelectAreaName: function() {
@@ -615,17 +750,14 @@
 							}
 						})
 						//console.log(_this.user2)
-						_this.users = _this.user2;
-						_this.users = _this.onFilter(_this.users, item1);
-						//console.log(_this.onFilter(_this.users, item1))
+						_this.teamUsers = _this.teamUsers2;
+						_this.teamUsers = _this.onFilter(_this.teamUsers, item1);
 					},
 					//过滤器str.substr(0, 1)
 					onFilter: function(data, letter) {
 						var _this = this;
 						var _arr = data.filter(function(item) {
-							//console.log(item)
-							//return typeof item == 'number'; 
-							return item.egName.substr(0, 1).indexOf(letter.name.toLocaleLowerCase()) != -1;
+							return item.userName.substr(0, 1).indexOf(letter.name.toLocaleLowerCase()) != -1;
 						});
 						if(_arr.length < 1) {
 							_this.isData = true;
@@ -653,12 +785,7 @@
 							mui.toast("请选择班组！！！");
 							return;
 						}
-						//console.log(_classes);
-						//return;
-						//var _cla
 						var _field01 = _itemList.field01;
-						/*var _field02 = _itemList.field02;
-						var _field03 = _itemList.field03;*/
 						var _createDate = (_itemList.createDate != null) ? FormatDateYMDHMS2(_itemList.createDate) : FormatDateYMDHMS2(new Date());
 						var _workDate = (_itemList.workDate != null) ? FormatDateYMD(_itemList.workDate) : FormatDateYMD(new Date());
 						var _arr = [];
@@ -695,7 +822,7 @@
 								item1.classes = _classes;
 								item1.field01 = _field01;
 								item1.field02 = _this.field02;
-								/*item1.field03 = _field03;*/
+								item1.field03 = _this.field03;
 								item1.stepId = _stepId;
 								item1.stepName = _stepName;
 								item1.groupId = _groupId;
@@ -731,6 +858,7 @@
 								data: _params,
 								dataType: 'json', //服务器返回json格式数据
 								type: 'post', //HTTP请求类型
+								async: true,
 								//timeout:10000,//超时时间设置为10秒；      
 								beforeSend: function() {
 									plus.nativeUI.showWaiting("加载中。。。");
@@ -746,6 +874,7 @@
 											data: _params1,
 											dataType: 'json', //服务器返回json格式数据
 											type: 'post', //HTTP请求类型
+											async: true,
 											//timeout:10000,//超时时间设置为10秒；      
 											beforeSend: function() {
 												plus.nativeUI.showWaiting("加载中。。。");
@@ -757,9 +886,83 @@
 											},
 											success: function(data) {
 												if(data.success == 1) {
-													mui.toast('提交成功!');
-													removeLsItem("lpaItemData")
-													mui.back();
+													for(var k = 0; k < _this.selectAssessors[i].length; k++) {
+														var _params = {
+															userName: _this.selectAssessors[i].userName,
+															workDate: _workDate,
+															listSubId: _listSubId,
+															createDate: _createDate,
+															isTeamLeader: '否',
+															workStation: 'pad',
+															xml: _xml
+														};
+														var _params1 = {
+															taskUsername: _this.selectAssessors[i].userName,
+															workDate: _workDate,
+															month: _month,
+															listName: _listName,
+															listId: _listSubId,
+															groupId: _groupId,
+															stepName: _stepName,
+															stepId: _stepId,
+															groupName: _groupName
+														};
+														mui.ajax(_url + 'learServer/savePlanPerItemDetail', {
+															data: _params,
+															dataType: 'json', //服务器返回json格式数据
+															type: 'post', //HTTP请求类型
+															async: true,
+															//timeout:10000,//超时时间设置为10秒；      
+															beforeSend: function() {
+																plus.nativeUI.showWaiting("加载中。。。");
+																mask.show(); //显示遮罩层
+															},
+															complete: function() {
+																plus.nativeUI.closeWaiting();
+																mask.close(); //关闭遮罩层
+															},
+															success: function(data) {
+																if(data.success == 1) {
+																	mui.ajax(_url + 'learServer/saveResult', {
+																		data: _params1,
+																		dataType: 'json', //服务器返回json格式数据
+																		type: 'post', //HTTP请求类型
+																		async: true,
+																		//timeout:10000,//超时时间设置为10秒；      
+																		beforeSend: function() {
+																			plus.nativeUI.showWaiting("加载中。。。");
+																			mask.show(); //显示遮罩层
+																		},
+																		complete: function() {
+																			plus.nativeUI.closeWaiting();
+																			mask.close(); //关闭遮罩层
+																		},
+																		success: function(data) {
+																			if(data.success == 1) {
+																				if(k == _this.selectAssessors[i].length - 1) {
+																					mui.toast('提交成功!');
+																					removeLsItem("lpaItemData")
+																					mui.back();
+																				}
+
+																			}
+																		},
+																		error: function(xhr, type, errorThrown) {
+																			//console.log("===========失败");
+																			mask.close(); //关闭遮罩层
+																			mui.toast("连接网络失败！");
+																		}
+																	})
+																}
+															},
+															error: function(xhr, type, errorThrown) {
+																//console.log("===========失败");
+																mask.close(); //关闭遮罩层
+																mui.toast("连接网络失败！");
+															}
+														})
+													}
+
 												}
 											},
 											error: function(xhr, type, errorThrown) {
@@ -779,6 +982,10 @@
 						} else {
 							mui.toast('您存在未审核项，请确认!');
 						}
+					},
+					//选择小组成员
+					selectTeamUsers: function() {
+						mui('#assessorPopover').popover('toggle');
 					}
 				}
 			})
