@@ -1,0 +1,740 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../../css/global.css" />
+		<!--<link rel="stylesheet" href="../../css/index.css">-->
+		<link rel="stylesheet" href="../../css/swiper-3.3.1.min.css">
+		<link rel="stylesheet" href="../../css/style.css" />
+		<script type="text/javascript" src="../../js/static.js"></script>
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/jquery-1.11.0.js"></script>
+		<script type="text/javascript" src="../../js/swiper-3.3.1.min.js"></script>
+		<script type="text/javascript" src="../../js/calendar.js"></script>
+		<script type="text/javascript" src="../../js/function.js"></script>
+		<script type="text/javascript" src="../../js/vue.min.js"></script>
+		<style type="text/css">
+			body {
+				background-color: white !important;
+			}
+			
+			.mui-content {
+				background-color: white;
+				-webkit-overflow-scrolling: touch;
+			}
+			
+			.avater {
+				position: relative;
+				width: 3.4em;
+				height: 3.4em;
+				line-height: 3.4em;
+				-webkit-border-radius: 9em;
+				-moz-border-radius: 9em;
+				-ms-border-radius: 9em;
+				/* border-radius: 9em; */
+				text-align: center;
+				color: #999;
+				border: 1px solid #999;
+				margin-right: .4em;
+			}
+			
+			.select_color31 {
+				position: relative;
+				width: 3.4em;
+				height: 3.4em;
+				line-height: 3.4em;
+				-webkit-border-radius: 9em;
+				-moz-border-radius: 9em;
+				-ms-border-radius: 9em;
+				/* border-radius: 9em; */
+				text-align: center;
+				color: #a627c4;
+				border: 1px solid #a627c4;
+				margin-right: .4em;
+			}
+			
+			.avater2 {
+				position: relative;
+				width: 3.4em;
+				height: 3.4em;
+				line-height: 3.4em;
+				-webkit-border-radius: 9em;
+				-moz-border-radius: 9em;
+				-ms-border-radius: 9em;
+				/* border-radius: 9em; */
+				text-align: center;
+				color: #909090;
+				border: 1px solid #909090;
+				margin-right: .4em;
+				background: #0aaa0a;
+			}
+			
+			.isOver {
+				color: white;
+				font-weight: 700;
+			}
+			
+			#listPopover {
+				position: absolute;
+				left: 10%;
+				top: 10%;
+				width: 80%;
+				height: 80%;
+			}
+			
+			* {
+				margin: 0;
+				padding: 0;
+			}
+			
+			ul {
+				list-style: none;
+			}
+			
+			#schedule-box {
+				width: 100%;
+				margin: 0 auto;
+				/*padding: 35px 20px;*/
+				padding: 4rem 21px;
+				font-size: 2rem;
+			}
+			
+			.schedule-hd {
+				display: flex;
+				justify-content: space-between;
+				margin-bottom: 2rem;
+				border: solid 1px;
+				border-top-color: transparent;
+				border-left-color: transparent;
+				border-right-color: transparent;
+			}
+			
+			.today {
+				flex: 4;
+				text-align: left;
+				font-size: 3rem;
+			}
+			
+			.ul-box {
+				overflow: hidden;
+			}
+			
+			.ul-box>li {
+				float: left;
+				width: 14.28%;
+				/*text-align: center;*/
+				/*padding: 15px 0;*/
+			}
+			
+			.other-month {
+				color: #999999;
+				border: solid 1px;
+				height: 6rem;
+			}
+			
+			.current-month {
+				color: #333333;
+				position: relative;
+				border: solid 1px;
+				height: 6rem;
+			}
+			
+			.today-style {
+				border-radius: 50%;
+				background: #58d321;
+			}
+			
+			.arrow {
+				cursor: pointer;
+			}
+			
+			.dayStyle {
+				display: inline-block;
+				width: 100%;
+				height: 5.7rem;
+				/*border-radius: 50%;*/
+				margin-left: .3vw;
+				/*text-align: center;*/
+				/*line-height: 3rem;*/
+				cursor: pointer;
+				font-size: 1.5rem;
+			}
+			/*.current-month>.dayStyle:hover {
+				background: #00BDFF;
+				color: #ffffff;
+			}*/
+			
+			.xuanzhong {
+				background-color: #ddd;
+				/*border-radius: 50%;*/
+			}
+			
+			.currentDate {
+				/*background: #00BDFF;
+				color: #ffffff;*/
+			}
+			
+			.today-flag {
+				background: #e1cece;
+				color: #333;
+			}
+			
+			.boxshaw {
+				box-shadow: 2px 2px 15px 2px #e3e3e3;
+			}
+			
+			.selected-style {
+				/*background: #00BDFF;
+				color: #ffffff;*/
+				background-color: #ddd;
+				color: black;
+				/*border-radius: 50%;*/
+			}
+			
+			#h3Ele {
+				text-align: center;
+				padding: 10px;
+			}
+			
+			.select_color {
+				width: 4rem;
+				height: 4rem;
+				position: absolute;
+				/* padding-right: 3rem; */
+				right: 1.5rem;
+				bottom: .5rem;
+				background: #aaa;
+				border-radius: 50%;
+			}
+			
+			.select_color4 {
+				width: 4rem;
+				height: 4rem;
+				position: absolute;
+				/* padding-right: 3rem; */
+				right: 1.5rem;
+				bottom: .5rem;
+				background: #aaa;
+				border-radius: 50%;
+			}
+			
+			.select_color2 {
+				width: 4rem;
+				height: 4rem;
+				position: absolute;
+				/* padding-right: 3rem; */
+				right: 1.5rem;
+				bottom: .5rem;
+				background: #aaa;
+				border-radius: 50%;
+			}
+			
+			.select_color3 {
+				width: 4rem;
+				height: 4rem;
+				position: absolute;
+				/* padding-right: 3rem; */
+				right: 1.5rem;
+				bottom: .5rem;
+				background: #aaa;
+				border-radius: 50%;
+			}
+			
+			.select_color5 {
+				right: 2rem;
+				right: 2.5rem;
+				bottom: .5rem;
+				background: #aaa;
+				border-radius: 50%;
+			}
+			
+			.select_color1 {
+				width: 4rem;
+				height: 4rem;
+				position: absolute;
+				/* padding-right: 3rem; */
+				right: 1.5rem;
+				bottom: .5rem;
+				background: #aaa;
+				border-radius: 50%;
+			}
+			
+			.select_color6 {
+				width: 4rem;
+				height: 4rem;
+				position: absolute;
+				/* padding-right: 3rem; */
+				right: 1.5rem;
+				bottom: .5rem;
+				background: #aaa;
+				border-radius: 50%;
+			}
+			
+			.num {
+				position: absolute;
+				margin-top: 1.3rem;
+				margin-left: 1.3rem;
+				/*margin-top: 0.8rem;
+				margin-left: .9rem;*/
+			}
+			
+			.new-plus {
+				background-color: #3b8adf;
+				height: 4vh;
+				width: 4vh;
+				color: white;
+				font-size: 4vh;
+				margin: 1vh 1vh 0 1vh;
+				border-radius: 2vh;
+				line-height: 4vh;
+				text-align: center;
+			}
+			
+			.list-title {
+				margin: 1vh;
+				font-size: 2vh;
+				font-weight: 600;
+			}
+			
+			.mui-table-view .mui-media-object {
+				line-height: 46px;
+				max-width: 46px;
+				height: 46px;
+			}
+			
+			.md-bottom {
+				display: flex;
+				z-index: 999;
+				bottom: 0px;
+				position: fixed;
+				width: 100%;
+				margin-left: 0.5rem;
+				background-color: white;
+			}
+			
+			.wake {
+				width: 3vh;
+				height: 3vh;
+				font-size: 2vh;
+				border-radius: 3vh;
+				text-align: center;
+				line-height: 3vh;
+				background-color: #aaa;
+				margin-right: .5vh;
+			}
+			
+			.year-week {
+				color: red;
+			}
+			
+			.check-num {
+				position: absolute;
+				right: 1vh;
+			}
+			
+			.mui-table-view-cell.mui-collapse .mui-table-view .mui-table-view-cell {
+				padding-left: 15px;
+				background-position: 31px 100%;
+			}
+			
+			.mui-table-view-cell.mui-collapse .mui-table-view {
+				display: none;
+				margin-top: 0px;
+				margin-right: 0px;
+				margin-bottom: -11px;
+				margin-left: -15px;
+				border: 0;
+			}
+			
+			.mui-scroll-wrapper {
+				position: relative;
+				z-index: 2;
+				top: 0;
+				bottom: 0;
+				left: 0;
+				overflow: hidden;
+				width: 100%;
+			}
+			
+			.md-bottom-hint {
+				flex: 1;
+				font-size: 2vh;
+				line-height: 3vh;
+			}
+			
+			.md-bottom-title {
+				flex: 9;
+				display: flex;
+				text-align: left;
+			}
+			
+			.md-bottom-item {
+				display: flex;
+				font-size: 1.5vh;
+				line-height: 3vh;
+			}
+			
+			.md-new-plus {
+				position: fixed;
+				z-index: 999;
+				bottom: 4.5vh;
+			}
+			
+			.md-list-content {
+				display: flex;
+				/*margin-top: .3vh;*/
+			}
+			
+			.md-list-content-left {
+				flex: 3;
+			}
+			
+			.md-list-content-right-item {
+				flex: 1;
+				text-align: left;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="mui-content" id='app'>
+			<header class="mui-bar mui-bar-nav" style="">
+				<!--<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>-->
+				<h1 class="mui-title" id="title" style="font-size: 2rem;">巡检</h1>
+				<!--<a class="mui-icon icon-jin mui-pull-right" id="today"></a>-->
+
+			</header>
+			<div id='schedule-box' class="boxshaw">
+
+			</div>
+			<div>
+				<div class="list-title">检查清单&nbsp;InspectDate:&nbsp;<span class="year-week" v-text="selectDate"></span>&nbsp;<span>本年第&nbsp;<span class="year-week" v-text="nowWeek"></span>&nbsp;周</span><span class="check-num">已检查清单&nbsp;{{checkTotal}}&nbsp;次</span></div>
+				<div id="scroll" class="mui-content mui-scroll-wrapper" style="height: 30vh;">
+					<div class="mui-scroll">
+						<ul class="mui-table-view" style="margin: .5rem;color: black;">
+							<li class="mui-table-view-cell mui-media mui-collapse" id="lpaList" v-for="(inspectData,index) in lpaLists">
+								<a class="mui-navigate-right" style="font-size:1.5vh;font-weight: 600;" href="#" v-text="inspectData.name"></a>
+								<div class="mui-collapse-content">
+									<div id="scroll" class="mui-content mui-scroll-wrapper2" style="height: 30vh;">
+										<div class="mui-scroll">
+											<ul class="mui-table-view">
+												<li class="mui-table-view-cell mui-media" v-for="(item,index2) in inspectData.data" v-bind:id="['slider'+item.id]" @tap="onTapLpaContent(item)">
+													<div class="mui-slider-right mui-disabled">
+														<a class="mui-btn mui-btn-red" v-on:tap.stop="deletItem(item,index2)">删除</a>
+													</div>
+													<div class="mui-slider-handle">
+														<a href="javascript:;" style="color: #222;">
+															<div class="mui-media-object mui-pull-left avater2">
+																<span class="isOver" v-text="item.shift"></span>
+															</div>
+															<div class="mui-media-body md-list-content">
+																<div class="md-list-content-left">
+																	<div class="mui-ellipsis" v-text="item.checkTime"></div>
+																	<div class="mui-ellipsis">清单名称: <span v-text="item.listName"></span></div>
+																</div>
+																<div class="md-list-content-right-item">
+																	<div class="mui-ellipsis">生产线: <span v-text="item.productionLine"></span></div>
+																	<div class="mui-ellipsis">审核员：<span v-text="item.auditorName"></span></div>
+																</div>
+																<div class="md-list-content-right-item">
+																	<div class="mui-ellipsis">总条款数: <span v-text="item.totalNum"></span></div>
+																	<div class="mui-ellipsis">不符合项数：<span v-text="item.nokNum"></span></div>
+																</div>
+															</div>
+														</a>
+													</div>
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="md-new-plus">
+					<span class="mui-icon mui-icon-plusempty new-plus" @tap="onTapNewPlus"></span>
+				</div>
+			</div>
+			<div class="md-bottom">
+				<div class="md-bottom-hint">注：</div>
+				<div class="md-bottom-title">
+					<div class="md-bottom-item">
+						<div class="wake">0</div>表示未检查</div>
+					<div class="md-bottom-item">
+						<div class="wake">1</div>表示检查1次</div>
+					<div class="md-bottom-item">
+						<div class="wake">2</div>表示检查2次</div>
+					<div class="md-bottom-item">
+						<div class="wake">3</div>表示检查3次,以此类推</div>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript" src="../../config.js"></script>
+		<script type="text/javascript" src="../../js/schedule2.js"></script>
+		<script type="text/javascript">
+			new Vue({
+				el: '#app',
+				data: {
+					lpaLists: [],
+					selecList: {},
+					lists: [],
+					isPC: false,
+					isDay: 0,
+					selectDate: '',
+					nowWeek: '',
+					checkTotal: '',
+					selectData: ''
+				},
+				mounted: function() {
+					var _this = this;
+					mui.init({
+						beforeback: function() {　　　　 //获得父页面的webview
+							var list = plus.webview.currentWebview().opener();　　　　 //触发父页面的自定义事件(refresh),从而进行刷新
+							mui.fire(list, 'refresh');
+							//返回true,继续页面关闭逻辑
+							return true;
+						}
+					});
+					mui('.mui-scroll-wrapper').scroll({
+						indicators: true //是否显示滚动条
+					});
+					mui('.mui-scroll-wrapper2').scroll({
+						indicators: true //是否显示滚动条
+					});
+					window.addEventListener('refreshData', function(e) { //执行刷新
+						//console.log("刷新");
+						location.reload();
+					});
+					var oldback = mui.back;
+					mui.back = function() {
+						mui.confirm("确定退出？", "EQMS", ["确定", "取消"], function(e) {
+							if(e.index == 0) {
+								oldback();
+							}
+						})
+					}
+					var _userData = JSON.parse(getLsItem("mopcData"));
+					var _date = new Date();
+					var month = _date.getMonth() + 1;
+					var _month2 = month < 10 ? "0" + month : month;
+					var date2 = _date.getDate();
+					var mySchedule = new Schedule({
+						el: '#schedule-box',
+						clickCb: function(y, m, d) {
+							_this.nowWeek = getYearWeek(y, m, d);
+							var _month = m < 10 ? ("0" + m) : m;
+							var _day = d < 10 ? ("0" + d) : d;
+							_this.isDay = _day;
+							_this.selectDate = y + "-" + _month + "-" + _day;
+							mAjax(_url + 'learServer/getInspectListOneDay', {
+								selectDate: y + "-" + _month + "-" + _day,
+								userName: _userData.userName
+							}, function(data) {
+								//console.log(data);
+								if(data.success == 1) {
+									//_this.selectData = data.data[0];
+									var json = {};
+									var res = [];
+									for(var i = 0; i < data.data.length; i++) {
+										if(!json[data.data[i].auditorName]) {
+											res.push({
+												name: data.data[i].auditorName
+											});
+											json[data.data[i].auditorName] = 1;
+										}
+									}
+									for(var k = 0; k < res.length; k++) {
+										var _arr2 = [];
+										for(var i = 0; i < data.data.length; i++) {
+											if(data.data[i].auditorName == res[k].name) {
+												//console.log(res[k])
+												_arr2.push(data.data[i]);
+												res[k].data = _arr2;
+											}
+										}
+									}
+									//console.log(res);
+									_this.lpaLists = res;
+									_this.checkTotal = data.totalCounts;
+								} else {
+									_this.lpaLists = [];
+								}
+							})
+						},
+						nextMonthCb: function(y, m, d) {
+							var _month = m < 10 ? ("0" + m) : m;
+							$('#title').text(y + "-" + _month);
+							if(_month == _month2) {
+								//console.log(111111);
+								_this.selectTody();
+							} else {
+								_this.lpaLists = [];
+							}
+							//console.log(y + "---" + m + "---" + d);
+						},
+						prevMonthCb: function(y, m, d) {
+							var _month = m < 10 ? ("0" + m) : m;
+							$('#title').text(y + "-" + _month);
+							if(_month == _month2) {
+								_this.selectTody();
+							} else {
+								_this.lpaLists = [];
+							}
+						}
+					});
+					_this.selectTody();
+				},
+				methods: {
+					onTapLpaContent: function(item) {
+						var _this = this;
+						console.log(111);
+						setLsItem("pollingItem", JSON.stringify(item));
+						mui.openWindow({
+							url: 'pollingNew.html',
+							id: 'itemList'
+						})
+						/*mui.openWindow({
+							url: 'pollingDetails.html',
+							id: 'itemList'
+						})*/
+						/*setLsItem("itemList", JSON.stringify(item))
+						mui.openWindow({
+							url: 'itemList.html',
+							id: 'itemList'
+						})*/
+					},
+					deletItem: function(item, index) {
+						var _this = this;
+						//删除时要校验 删除人是否和审核人相同
+						var _userData = JSON.parse(getLsItem("mopcData"));
+						if(item.auditorName != _userData.userDescription) {
+							mui.toast("您无权删除");
+							setTimeout(function() {
+								mui.swipeoutClose(document.getElementById('slider' + item.id));
+							}, 0);
+							return;
+						}
+						mAjax(_url + "learServer/removeInspectItem", {
+							subId: item.subId
+						}, function(data) {
+							if(data.success == 1) {
+								mui.toast("删除成功！");
+								setTimeout(function() {
+									mui.swipeoutClose(document.getElementById('slider' + item.id));
+								}, 0);
+								//重新渲染数据
+								location.reload(true);
+								//_this.removeRefesh();
+							}
+						})
+					},
+					selectTody: function() {
+						var _this = this;
+						var _userData = JSON.parse(getLsItem("mopcData"));
+						_this.selectDate = FormatDateYMD(new Date());
+						var today = new Date(); //获取当前时间
+						var y = today.getFullYear();
+						var m = today.getMonth() + 1;
+						var d = today.getDate();
+						//console.log(y+"--"+m+"---"+d);
+						_this.nowWeek = getYearWeek(y, m, d);
+						mAjax(_url + 'learServer/getInspectListOneDay', {
+							selectDate: FormatDateYMD(new Date()),
+							userName: _userData.userName
+						}, function(data) {
+							if(data.success == 1) {
+								//_this.selectData = data.data[0];
+								var json = {};
+								var res = [];
+								for(var i = 0; i < data.data.length; i++) {
+									if(!json[data.data[i].auditorName]) {
+										res.push({
+											name: data.data[i].auditorName
+										});
+										json[data.data[i].auditorName] = 1;
+									}
+								}
+								for(var k = 0; k < res.length; k++) {
+									var _arr2 = [];
+									for(var i = 0; i < data.data.length; i++) {
+										if(data.data[i].auditorName == res[k].name) {
+											//console.log(res[k])
+											_arr2.push(data.data[i]);
+											res[k].data = _arr2;
+										}
+									}
+								}
+								//console.log(res);
+								_this.lpaLists = res;
+								_this.checkTotal = data.totalCounts;
+							} else {
+								_this.lpaLists = [];
+							}
+						})
+					},
+					removeRefesh: function() {
+						var _this = this;
+						var _userData = JSON.parse(getLsItem("mopcData"));
+						var today = new Date(); //获取当前时间
+						var y = today.getYear();
+						var m = today.getMonth() + 1;
+						var d = today.getDate();
+						_this.nowWeek = getYearWeek(y, m, d);
+						mAjax(_url + 'learServer/getInspectListOneDay', {
+							selectDate: _this.selectDate,
+							userName: _userData.userName
+						}, function(data) {
+							if(data.success == 1) {
+								//_this.selectData = data.data[0];
+								var json = {};
+								var res = [];
+								for(var i = 0; i < data.data.length; i++) {
+									if(!json[data.data[i].auditorName]) {
+										res.push({
+											name: data.data[i].auditorName
+										});
+										json[data.data[i].auditorName] = 1;
+									}
+								}
+								for(var k = 0; k < res.length; k++) {
+									var _arr2 = [];
+									for(var i = 0; i < data.data.length; i++) {
+										if(data.data[i].auditorName == res[k].name) {
+											//console.log(res[k])
+											_arr2.push(data.data[i]);
+											res[k].data = _arr2;
+										}
+									}
+								}
+								_this.lpaLists = res;
+								_this.checkTotal = data.totalCounts;
+							} else {
+								_this.lpaLists = [];
+							}
+						})
+					},
+					onTapNewPlus: function() {
+						//console.log(this.selectData);
+						//return;
+						var _this = this;
+						var _item = {
+							temp: ''
+						};
+						setLsItem("pollingItem", JSON.stringify(_item))
+						setLsItem("selectDate", JSON.stringify(_this.selectDate));
+						mui.openWindow({
+							url: 'pollingNew.html',
+							id: 'itemList'
+						})
+					}
+				}
+			})
+		</script>
+	</body>
+
+</html>

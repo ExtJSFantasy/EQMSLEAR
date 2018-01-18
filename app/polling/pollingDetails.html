@@ -1,0 +1,609 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../../css/global.css" />
+		<link rel="stylesheet" href="../../css/style3.css" />
+		<link rel="stylesheet" href="../../css/mui.picker.min.css" />
+		<style type="text/css">
+			html,
+			body {
+				height: 100%;
+				width: 100%;
+			}
+			
+			.mui-content {
+				height: 99%;
+			}
+			
+			.form-title {
+				position: fixed;
+				z-index: 999;
+				width: 100%;
+				background: white;
+			}
+			
+			.form-item {
+				display: flex;
+				margin: 1rem;
+			}
+			
+			.item-flex {
+				flex: 1;
+			}
+			
+			.label-end {
+				text-align: center;
+			}
+			
+			.label-input-gray {
+				border: solid 1px !important;
+				background: #efeff4 !important;
+				border-color: #999 !important;
+				padding-left: 1rem !important;
+				color: gray;
+			}
+			
+			.label-input-arrow {
+				border: solid 1px !important;
+				background: #efeff4 !important;
+				border-color: #999 !important;
+				padding-left: 1rem !important;
+				background: url(../../images/arrow.png) right center no-repeat !important;
+			}
+			
+			.wrapper-padding {
+				padding-top: 16vh;
+				height: 95%;
+			}
+			
+			.md-form-title {
+				display: flex;
+				width: 100%;
+				text-align: center;
+				padding-top: 10.5vh;
+				position: fixed;
+				z-index: 700;
+				padding-right: 2.3vh;
+				background-color: #ddd;
+			}
+			
+			.icon-color-font-size {
+				font-size: 2vh;
+			}
+			
+			.md-check-div {
+				display: flex;
+				text-align: center;
+			}
+			
+			.md-first-item {
+				/*margin-top: 10%;
+				text-align: left;*/
+				position: relative;
+				top: 50%;
+				/*left: 0;*/
+				margin-left: -1vh;
+				transform: translate(0%, 50%);
+			}
+			
+			.md-div-right {
+				flex: 8;
+				text-align: left;
+			}
+			
+			.md-save-btn {
+				position: relative;
+				z-index: 20;
+				margin-top: 1.5vh;
+				padding-bottom: 10px;
+			}
+			
+			#nokPopover {
+				position: absolute;
+				z-index: 1001;
+				left: 5%;
+				top: 5%;
+				width: 90%;
+				height: 90%;
+			}
+			
+			.mui-table-view:before {
+				position: absolute;
+				right: 0;
+				left: 0;
+				height: 1px;
+				content: '';
+				-webkit-transform: scaleY(.5);
+				transform: scaleY(.5);
+				background-color: transparent;
+				top: -1px;
+			}
+			
+			.mui-table-view:after {
+				position: absolute;
+				right: 0;
+				bottom: 0;
+				left: 0;
+				height: 1px;
+				content: '';
+				-webkit-transform: scaleY(.5);
+				transform: scaleY(.5);
+				background-color: transparent;
+			}
+			
+			.md-detail-btn {
+				margin-right: 1vh;
+			}
+			
+			.md-background-btn {
+				background-color: #1377e3;
+				color: #f7f7f7;
+			}
+			
+			.md-footer {
+				width: 100%;
+				color: white;
+				font-size: 1.5vh;
+				font-weight: 600;
+				background-color: transparent;
+				border: transparent;
+			}
+			
+			.mui-backdrop {
+				position: fixed;
+				z-index: 1000;
+				top: 0;
+				right: 0;
+				bottom: 0;
+				left: 0;
+				background-color: rgba(0, 0, 0, .3);
+			}
+			
+			.md-close-div {
+				display: flex;
+				text-align: right;
+			}
+			
+			.md-close-popover {
+				font-size: 3vh;
+				color: #007aff;
+				right: 0px;
+				width: 100%;
+			}
+			.md-check-ok{
+				color: #34db34;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="mui-content" id="pollingNew">
+			<header class="mui-bar mui-bar-nav">
+				<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+				<h1 class="mui-title" id="title">检查清单</h1>
+				<!--<button class="mui-pull-right md-save-btn">保存</button>-->
+			</header>
+			<div class="mui-content content-background" style="">
+				<div class="form-title">
+					<!--<div style="" class="form-item">
+						<div class="mui-input-row item-flex">
+							<label class="label-end">InspectDate:</label>
+							<input id="assessor" readonly class="label-input-arrow">
+						</div>
+						<div class="mui-input-row item-flex">
+							
+						</div>
+					</div>-->
+					<div style="" class="form-item">
+						<div class="mui-input-row item-flex">
+							<label class="label-end">清单名称:</label>
+							<select style="" class="label-input-arrow md-input-height" v-model="classes">
+								<option v-for="option in options" v-bind:value="option.value">
+									{{ option.text }}
+								</option>
+							</select>
+						</div>
+						<div class="mui-input-row item-flex">
+							<label class="label-end">班次:</label>
+							<!--<input class="label-input-gray" readonly type="text" >-->
+							<select style="" class="label-input-arrow md-input-height" v-model="classes">
+								<option v-for="option in options" v-bind:value="option.value">
+									{{ option.text }}
+								</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-item">
+						<div class="mui-input-row item-flex">
+							<label class="label-end">生产线:</label>
+							<input class="label-input-gray" readonly type="text">
+						</div>
+						<div class="mui-input-row item-flex">
+							<label class="label-end">检查日期</label>
+							<input class="label-input-gray" style="background: url(../../images/arrow.png) right center no-repeat !important;" readonly id="selectTime" v-model="selectTime" type="text">
+						</div>
+					</div>
+				</div>
+				<div class="mui-content">
+					<div class="md-form-title" style="">
+						<div class="mui-input-row item-flex">
+							检查序号
+						</div>
+						<div class="mui-input-row item-flex">
+							工位名称
+						</div>
+						<div style="flex: 8;display: flex;">
+							<div class="mui-input-row" style="flex: 5;">
+								检查项目清单
+							</div>
+							<div class="mui-input-row item-flex">
+								读数
+							</div>
+							<div class="mui-input-row item-flex">
+								状态
+							</div>
+							<div class="mui-input-row item-flex">
+								Y
+							</div>
+							<div class="mui-input-row item-flex">
+								N
+							</div>
+							<div class="mui-input-row item-flex">
+								C
+							</div>
+							<div class="mui-input-row item-flex">
+								NA
+							</div>
+						</div>
+					</div>
+					<div id="scroll" class="mui-scroll-wrapper wrapper-padding">
+						<div class="mui-scroll">
+							<ul class="mui-table-view">
+								<li class="mui-table-view-cell" v-for="(listData,index) in listDatas" v-bind:key="listData.id">
+									<div class="md-check-div">
+										<div class="item-flex md-first-item" v-text="listData.checkNo"></div>
+										<div class="item-flex md-first-item" v-text="listData.name"></div>
+										<div class="md-div-right ">
+											<ul class="mui-table-view">
+												<li class="mui-table-view-cell md-check-div" v-for="(detailData,index2) in listData.data">
+													<div style="flex: 5;text-align: left;" v-text="detailData.checkList"></div>
+													<div class="item-flex"><input type="number" v-model="detailData.indication"/></div>
+													<div class="item-flex" v-text="detailData.statusForExcel"></div>
+													<div class="item-flex"><span class="icon-uniF192 icon-color-font-size" :class="{'md-check-ok':detailData.statusForExcel == '符合'}"></span></div>
+													<div class="item-flex" @tap="onTapNok(detailData,index2)"><span class="icon-uniF057 icon-color-font-size"></span></div>
+													<div class="item-flex"><span class="icon-uniF05E icon-color-font-size"></span></div>
+													<div class="item-flex"><span class="icon-NA icon-color-font-size"></span></div>
+												</li>
+											</ul>
+										</div>
+									</div>
+								</li>
+							</ul>
+						</div>
+					</div>
+
+				</div>
+				<div class="mui-card-footer" style="background-color: #0d5796;text-align: center;display: flex;position: fixed;bottom: 0px;width: 100%;">
+					<button type="button" class="md-footer md-keyi">提交</button>
+				</div>
+			</div>
+
+			<div id="nokPopover" class="mui-popover">
+				<div class="md-close-div"><span class="icon-uniF057 md-close-popover"></span></div>
+				<div class="mui-content" style="display: flex;height: 100%;">
+					<div class="mui-content" id="refreshData" style="flex:9;height: 100%;">
+						<div>
+							<div class="form-item">
+								<div class="mui-input-row item-flex">
+									<label class="label-end">检查序号:</label>
+									<input class="label-input-gray" readonly type="text">
+								</div>
+								<div class="mui-input-row item-flex">
+									<label class="label-end">工位名称:</label>
+									<input class="label-input-gray" readonly type="text">
+								</div>
+							</div>
+							<label style="margin-left: 1rem;">问题描述:</label>
+							<textarea id="remark" rows="5" style="margin-top: .5rem;" placeholder="描述"></textarea>
+							<div>
+								<ul class="mui-table-view" style="margin: .5rem;color: black;">
+									<li class="mui-table-view-cell mui-media mui-collapse" id="lpaList">
+										<a class="mui-navigate-right" href="#">一般数据处理(<span style="color:red">当即整改,非质量问题处理</span>)</a>
+										<div class="mui-collapse-content">
+											<label style="margin-left: 1rem;">抑制措施:</label>
+											<textarea id="remark" rows="5" style="margin-top: .5rem;" placeholder="描述"></textarea>
+											<div style="display: flex;">
+												<button type="button" class="md-detail-btn md-background-btn">当即整改</button>
+												<button type="button" class="md-detail-btn md-background-btn">上升问题流</button>
+												<button type="button" class="md-background-btn">返回</button>
+											</div>
+										</div>
+									</li>
+									<li class="mui-table-view-cell mui-media mui-collapse" id="lpaList">
+										<a class="mui-navigate-right" href="#">不合格品数据处理(<span style="color:red">有不合格数时必填</span>)</a>
+										<div class="mui-collapse-content">
+											<div style="display: flex;">
+												<div style="flex: 1;">
+													<div class="mui-input-row ">
+														<label class="label-end">不合格数:</label>
+														<input class="label-input-gray" type="number">
+													</div>
+												</div>
+												<div style="flex: 1;">
+													<div class="mui-input-row ">
+														<label class="label-end" style="width: 40% !important;">问题分类:</label>
+														<!--<input class="label-input-gray" readonly type="text" >-->
+														<select style="width: 60% !important;" class="label-input-arrow md-input-height" v-model="classes">
+															<option v-for="question in questions" v-bind:value="question.value">
+																{{ question.text }}
+															</option>
+														</select>
+													</div>
+												</div>
+
+											</div>
+											<div>
+												<form class="mui-input-group" style="display: flex;">
+													<div style="margin-top: .5vh;">缺陷类别:</div>
+													<div class="mui-input-row mui-radio mui-left">
+														<label>原材料缺陷</label>
+														<input name="isNC" value="1" type="radio">
+													</div>
+													<div class="mui-input-row mui-radio mui-left">
+														<label>产品缺陷</label>
+														<input name="isNC" value="0" type="radio">
+													</div>
+												</form>
+											</div>
+											<div style="display: flex;margin-top: 1vh;">
+												<button type="button" class="md-detail-btn md-background-btn">不合格品处理</button>
+												<button type="button" class="md-background-btn">返回</button>
+											</div>
+										</div>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/mui.picker.min.js"></script>
+		<script type="text/javascript" src="../../config.js"></script>
+		<script type="text/javascript" src="../../js/static.js"></script>
+		<script type="text/javascript" src="../../js/function.js"></script>
+		<script type="text/javascript" src="../../js/utils.js"></script>
+		<script type="text/javascript" src="../../js/vue.min.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			new Vue({
+				el: '#pollingNew',
+				data: {
+					classes: '',
+					selectTime: '',
+					options: [{
+							text: '早班',
+							value: '早班'
+						},
+						{
+							text: '晚班',
+							value: '晚班'
+						}
+					],
+					questions: [{
+							text: '人',
+							value: '人'
+						},
+						{
+							text: '机',
+							value: '机'
+						},
+						{
+							text: '料',
+							value: '料'
+						},
+						{
+							text: '法',
+							value: '法'
+						}, {
+							text: '环',
+							value: '环'
+						},
+						{
+							text: '其他',
+							value: '其他'
+						}
+					],
+					listDatas: []
+				},
+				mounted: function() {
+					mui('.mui-scroll-wrapper').scroll({
+						indicators: true //是否显示滚动条
+					});
+					this.initData();
+				},
+				methods: {
+					initData: function() {
+						var _this = this;
+						selectDate('time', 'selectTime', '', function(data) {
+							_this.selectTime = data.text;
+						});
+						//console.log(JSON.parse(getLsItem("pollingItem")));
+						var _pollingItem = JSON.parse(getLsItem("pollingItem"));
+						//console.log(FormatDateYMD(_pollingItem.inspectDate));
+						mAjax(_url + "learServer/getInspectListItemDetails", {
+							subId: _pollingItem.subId,
+							workDate: FormatDateYMD(_pollingItem.inspectDate)
+						}, function(data) {
+							if(data.success == 1) {
+								var json = {};
+								var res = [];
+								for(var i = 0; i < data.data.length; i++) {
+									if(!json[data.data[i].stationName]) {
+										res.push({
+											name: data.data[i].stationName,
+											checkNo:data.data[i].checkNo
+										});
+										json[data.data[i].stationName] = 1;
+									}
+								}
+								for(var k = 0; k < res.length; k++) {
+									var _arr2 = [];
+									for(var i = 0; i < data.data.length; i++) {
+										if(data.data[i].stationName == res[k].name) {
+											//console.log(res[k])
+											_arr2.push(data.data[i]);
+											res[k].data = _arr2;
+										}
+									}
+								}
+								_this.listDatas = res;
+								console.log(res);
+								console.log(data);
+							}
+						})
+						/*var _listDatas = [{
+								id: 1,
+								checkNo: 01,
+								stationName: '支架路',
+								checkDetailDatas: [{
+										id: 1,
+										checkName: '就哈哈打开时电话哈萨克来得及ask多久啊',
+										readNum: '',
+										state: ''
+									},
+									{
+										id: 2,
+										checkName: '就哈哈打开时电话哈萨克来得及ask多久啊',
+										readNum: '',
+										state: ''
+									},
+									{
+										id: 3,
+										checkName: '就哈哈打开时电话哈萨克来得及ask多久啊',
+										readNum: '',
+										state: ''
+									}
+								]
+							},
+							{
+								id: 2,
+								checkNo: 02,
+								stationName: '支架路',
+								checkDetailDatas: [{
+										id: 1,
+										checkName: '就哈哈打开时电话哈萨克来得及ask多久啊',
+										readNum: '',
+										state: ''
+									},
+									{
+										id: 2,
+										checkName: '就哈哈打开时电话哈萨克来得及ask多久啊',
+										readNum: '',
+										state: ''
+									}
+								]
+							},
+							{
+								id: 3,
+								checkNo: 03,
+								stationName: '支架路',
+								checkDetailDatas: [{
+										id: 1,
+										checkName: '就哈哈打开时电话哈萨克来得及ask多久啊',
+										readNum: '',
+										state: ''
+									},
+									{
+										id: 2,
+										checkName: '就哈哈打开时电话哈萨克来得及ask多久啊',
+										readNum: '',
+										state: ''
+									},
+									{
+										id: 3,
+										checkName: '就哈哈打开时电话哈萨克来得及ask多久啊',
+										readNum: '',
+										state: ''
+									}
+								]
+							},
+							{
+								id: 4,
+								checkNo: 04,
+								stationName: '支架路',
+								checkDetailDatas: [{
+										id: 1,
+										checkName: '就哈哈打开时电话哈萨克来得及ask多久啊',
+										readNum: '',
+										state: ''
+									},
+									{
+										id: 2,
+										checkName: '就哈哈打开时电话哈萨克来得及ask多久啊',
+										readNum: '',
+										state: ''
+									}
+								]
+							},
+							{
+								id: 5,
+								checkNo: 05,
+								stationName: '支架路',
+								checkDetailDatas: [{
+										id: 1,
+										checkName: '就哈哈打开时电话哈萨克来得及ask多久啊',
+										readNum: '',
+										state: ''
+									},
+									{
+										id: 2,
+										checkName: '就哈哈打开时电话哈萨克来得及ask多久啊',
+										readNum: '',
+										state: ''
+									},
+									{
+										id: 3,
+										checkName: '就哈哈打开时电话哈萨克来得及ask多久啊',
+										readNum: '',
+										state: ''
+									}
+								]
+							},
+							{
+								id: 6,
+								checkNo: 06,
+								stationName: '支架路',
+								checkDetailDatas: [{
+										id: 1,
+										checkName: '就哈哈打开时电话哈萨克来得及ask多久啊',
+										readNum: '',
+										state: ''
+									},
+									{
+										id: 2,
+										checkName: '就哈哈打开时电话哈萨克来得及ask多久啊',
+										readNum: '',
+										state: ''
+									}
+								]
+							}
+						];
+						_this.listDatas = _listDatas;*/
+					},
+					onTapNok: function(item, index) {
+						console.log(item);
+						mui('#nokPopover').popover('toggle');
+					}
+				}
+			})
+		</script>
+	</body>
+
+</html>
