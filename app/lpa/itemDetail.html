@@ -51,15 +51,8 @@
 			}
 			
 			.btn_background {
-				/*background: #e94f4f !important;*/
 			}
 			.form-title {
-				/*position: fixed;
-				z-index: 10;
-				width: 100%;
-				background: white;*/
-				/*z-index: 999;
-				position: fixed;*/
 				width: 100%;
 				background: white;
 				padding: 1vh 0 1vh 0;
@@ -355,10 +348,6 @@
 							}
 						}
 						var _id = _nowData.itemSubId + '' + _itemList.listId + '' + _itemList.stepId + '-' + _createDate;
-						//_this.itemList = _nowData;
-						//var _itemList2 = JSON.parse(getLsItem('itemList'));
-						//_this.extra.problemId = _this.itemNokData.fjId;
-						//_this.extra.userName = _userData.userName;
 						var _params = {
 							applicationType: '分层审核',
 							subID: _id,
@@ -367,12 +356,6 @@
 							showType: 'listGrid',
 							modelType: '分层审核'
 						};
-						/*mAjax(_url + 'learServer/getAttachment', _params, function(data) {
-							console.log(data);
-							if(data.success == 1) {
-								_this.imgs = data.data;
-							}
-						})*/
 						mui.ajax(_url + 'learServer/getAttachment', {
 							data: _params,
 							dataType: 'json', //服务器返回json格式数据
@@ -388,13 +371,9 @@
 							},
 							success: function(data) {
 								if(data.success == 1) {
-									//console.log(JSON.stringify(data.data));
-									//_this.imgs = data.data;
 									var _data = data.data;
 									var _imgs1 = [];
 									var _imgs2 = [];
-									//console.log(_data[0].url);
-									//console.log(data.data[0].url.split('/')[6].substring(0,1) == 'h');
 									//处理图片
 									for(var i = 0; i < _data.length; i++) {
 										if(_data[i].url.split('/')[6].substring(0, 1) == 'h') {
