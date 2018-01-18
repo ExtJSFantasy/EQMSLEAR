@@ -232,6 +232,12 @@
 				transform: scaleY(.5);
 				background-color: transparent;
 			}
+			
+			.md-ap-search {
+				width: 80%;
+				margin: auto;
+				margin-top: 1rem;
+			}
 		</style>
 	</head>
 
@@ -267,7 +273,6 @@
 					<div class="form-item">
 						<div class="mui-input-row" style="width: 50%;">
 							<label class="label-end">班次:</label>
-							<!--<input id="assessor" class="label-input-arrow" readonly type="text" value="aa,bb,ccc">-->
 							<select v-model="classes" class="label-input-arrow">
 								<option v-for="option in options" v-bind:value="option.value">
 									{{ option.text }}
@@ -275,19 +280,21 @@
 							</select>
 						</div>
 						<div class="mui-input-row item-flex">
-							<label class="label-end">小组成员:</label>
-							<input class="label-input-gray" v-model="field02" style="background: white !important;color: black;" type="text" style="font-size: 1rem;" v-model="teamUser">
+							<label class="label-end">小组成员编号:</label>
+							<input class="label-input-gray" v-model="field02" style="background: white !important;color: black;" type="text" style="font-size: 1rem;" v-model="teamUsersNo">
 						</div>
 					</div>
-				</div>
-				<!--<div class="mui-text-center" v-text="formTitle" style="font-size: 1.5rem;padding-top: .5rem;"></div>-->
-				<!--<div class="" v-text="lineTitle" style="font-size: 1.6rem;padding-top: .7rem;text-align: center;">审核清单</div>-->
-				<!--<form class="mui-input-group">
-					<div class="mui-input-row">
-						<label>责任部门</label>
-						<input type="text" readonly placeholder="" style="background: url(../../images/arrow.png) right center no-repeat;">
+					<div class="form-item">
+						<div class="mui-input-row item-flex">
+							<label class="label-end">小组成员姓名:</label>
+							<input class="label-input-gray" readonly type="text" v-model="teamUsersName">
+						</div>
+						<div class="mui-input-row item-flex">
+
+						</div>
+
 					</div>
-				</form>-->
+				</div>
 				<div class="mui-content" style="">
 					<div id="scroll" class="mui-scroll-wrapper wrapper-padding">
 						<div class="mui-scroll">
@@ -317,8 +324,8 @@
 				</div>
 			</div>
 			<div id="assessorPopover" class="mui-popover">
-				<div class="mui-input-row mui-search" style="width: 80%;margin: auto;margin-top: 1rem;">
-					<input type="search" v-model="assessor" class="" placeholder="" v-on:input="searchAssessor">
+				<div class="mui-input-row mui-search md-ap-search" style="">
+					<input type="search" v-model="teamUsers" class="" placeholder="" v-on:input="searchTeamUser">
 				</div>
 				<div class="mui-content" style="display: flex;height: 90%;">
 					<div class="mui-content" id="refreshData" style="flex:9;height: 100%;">
@@ -328,24 +335,25 @@
 								<div class="mui-content mui-scroll-wrapper" style="height: 90%;position: relative;">
 									<div class="mui-scroll">
 										<ul class="mui-table-view mui-grid-view">
-											<li class="mui-table-view-cell mui-media mui-col-xs-8" v-for="(selectAssessor,index) in selectAssessors" @tap="onTapCancleSelectAssessor(selectAssessor,index)">
-												<span style="font-size:1.5rem;color: black;" v-text="selectAssessor.name"></span>
+											<li class="mui-table-view-cell mui-media mui-col-xs-6" style="    width: 100%;background: #ccc;padding-bottom: .5rem;padding-top: .5rem;margin-bottom: .5rem;">
+												<!--<span style="font-size:1rem;color: black;" v-text="selectAssessor.userDescription"></span>-->
 											</li>
 										</ul>
 									</div>
 								</div>
+								<button class="mui-text-center" style="color: #aaa;z-index: 999;background: #eb2f1b;width: 100%;font-size: 1.2rem;padding-top: .5rem; padding-bottom: .5rem;">确认所选人员</button>
 							</div>
 							<div style="flex: 5;height: 100%;">
 								<div class="mui-content mui-scroll-wrapper" style="height: 100%;position: relative;">
 									<div class="mui-scroll">
-										<div class="mui-text-center" v-show="isData">没有数据</div>
+										<!--<div class="mui-text-center" >没有数据</div>-->
 										<ul class="mui-table-view mui-grid-view">
-											<li class="mui-table-view-cell mui-media mui-col-xs-4" v-for="(user,index) in users" @tap="onTapSelectAssessorItem(user,index)">
-												<div class="mui-card" style="   background: #535fcc;">
+											<li class="mui-table-view-cell mui-media mui-col-xs-4">
+												<!--<div class="mui-card" style="       background: #2387f4;">
 													<div class="mui-card-header mui-card-media" :class="{isActive:user.isActive}">
-														<span style="font-size:1.5rem;color: white;" v-text="user.name"></span>
+														<span style="font-size:1rem;color: white;" v-text="user.userDescription"></span>
 													</div>
-												</div>
+												</div>-->
 											</li>
 										</ul>
 									</div>
@@ -354,100 +362,7 @@
 						</div>
 					</div>
 					<div class="indexed-list" style="flex: 1;margin: .5rem;">
-						<a v-for="(letter,index) in letters" :class="{select_letter:letter.isSelect}" @tap="selectLetter(letter,index)" style="font-weight: bold;">{{letter.name}}</a>
-					</div>
-				</div>
-			</div>
-			<div id="areaPopover" class="mui-popover">
-				<div class="mui-input-row mui-search" style="width: 80%;margin: auto;margin-top: 1rem;">
-					<input type="search" class="" placeholder="">
-				</div>
-				<div class="mui-content" style="display: flex;height: 90%;">
-					<div class="mui-content" id="refreshData" style="flex:9;height: 100%;">
-						<div class="mui-content mui-scroll-wrapper" style="height: 100%;position: relative;">
-							<div class="mui-scroll">
-								<!--<ul class="mui-table-view">
-									<li class="mui-table-view-cell">
-										<label>&nbsp;&nbsp;</label><span>11111</span>
-									</li>
-								</ul>-->
-								<div class="mui-text-center" v-show="isData">没有数据</div>
-								<ul class="mui-table-view mui-grid-view">
-									<li class="mui-table-view-cell mui-media mui-col-xs-4" v-for="(user,index) in users">
-										<div class="mui-card" style="   background: #535fcc;">
-											<div class="mui-card-header mui-card-media">
-												<span style="font-size:2rem;color: white;" v-text="user.name"></span>
-											</div>
-										</div>
-									</li>
-								</ul>
-							</div>
-						</div>
-					</div>
-					<div class="indexed-list" style="flex: 1;margin: .5rem;">
-						<a v-for="(letter,index) in letters" :class="{select_letter:letter.isSelect}" @tap="selectLetter(letter,index)">{{letter.name}}</a>
-					</div>
-				</div>
-			</div>
-			<div id="productGroup" class="mui-popover">
-				<div class="mui-input-row mui-search" style="width: 80%;margin: auto;margin-top: 1rem;">
-					<input type="search" class="" placeholder="">
-				</div>
-				<div class="mui-content" style="display: flex;height: 90%;">
-					<div class="mui-content" id="refreshData" style="flex:9;height: 100%;">
-						<div class="mui-content mui-scroll-wrapper" style="height: 100%;position: relative;">
-							<div class="mui-scroll">
-								<!--<ul class="mui-table-view">
-									<li class="mui-table-view-cell">
-										<label>&nbsp;&nbsp;</label><span>11111</span>
-									</li>
-								</ul>-->
-								<div class="mui-text-center" v-show="isData">没有数据</div>
-								<ul class="mui-table-view mui-grid-view">
-									<li class="mui-table-view-cell mui-media mui-col-xs-4" v-for="(user,index) in users">
-										<div class="mui-card" style="   background: #535fcc;">
-											<div class="mui-card-header mui-card-media">
-												<span style="font-size:2rem;color: white;" v-text="user.name"></span>
-											</div>
-										</div>
-									</li>
-								</ul>
-							</div>
-						</div>
-					</div>
-					<div class="indexed-list" style="flex: 1;margin: .5rem;">
-						<a v-for="(letter,index) in letters" :class="{select_letter:letter.isSelect}" @tap="selectLetter(letter,index)">{{letter.name}}</a>
-					</div>
-				</div>
-			</div>
-			<div id="assessorProductPopover" class="mui-popover">
-				<div class="mui-input-row mui-search" style="width: 80%;margin: auto;margin-top: 1rem;">
-					<input type="search" class="" placeholder="">
-				</div>
-				<div class="mui-content" style="display: flex;height: 90%;">
-					<div class="mui-content" id="refreshData" style="flex:9;height: 100%;">
-						<div class="mui-content mui-scroll-wrapper" style="height: 100%;position: relative;">
-							<div class="mui-scroll">
-								<!--<ul class="mui-table-view">
-									<li class="mui-table-view-cell">
-										<label>&nbsp;&nbsp;</label><span>11111</span>
-									</li>
-								</ul>-->
-								<div class="mui-text-center" v-show="isData">没有数据</div>
-								<ul class="mui-table-view mui-grid-view">
-									<li class="mui-table-view-cell mui-media mui-col-xs-4" v-for="(user,index) in users">
-										<div class="mui-card" style="   background: #535fcc;">
-											<div class="mui-card-header mui-card-media">
-												<span style="font-size:2rem;color: white;" v-text="user.name"></span>
-											</div>
-										</div>
-									</li>
-								</ul>
-							</div>
-						</div>
-					</div>
-					<div class="indexed-list" style="flex: 1;margin: .5rem;">
-						<a v-for="(letter,index) in letters" :class="{select_letter:letter.isSelect}" @tap="selectLetter(letter,index)">{{letter.name}}</a>
+						<!--<a v-for="(letter,index) in letters" :class="{select_letter:letter.isSelect}" @tap="selectLetter(letter,index)" style="font-weight: bold;">{{letter.name}}</a>-->
 					</div>
 				</div>
 			</div>
@@ -458,7 +373,6 @@
 		<script type="text/javascript" src="../../js/function.js"></script>
 		<script type="text/javascript" src="../../js/static.js"></script>
 		<script type="text/javascript">
-			//mui.init();
 			var mask = mui.createMask();
 			new Vue({
 				el: '#app',
@@ -488,8 +402,10 @@
 							value: '晚班'
 						}
 					],
-					teamUser: '',
-					field02:''
+					teamUsersNo: '',
+					teamUsersName: '',
+					field02: '',
+					teamUsers: '' //索引用到的字段
 				},
 				computed: {
 					reMsg: function() {
@@ -569,6 +485,10 @@
 							//console.log(_this.listData);
 						})
 					},
+					//小组成员
+					searchTeamUser: function() {
+
+					},
 					//合格
 					onTapOk: function(item, index) {
 						//console.log(item);
@@ -583,7 +503,7 @@
 						item.solveMethod = "不适用";
 					},
 					//立即纠正
-					onTapC:function(item,index){
+					onTapC: function(item, index) {
 						item.auditResult = "立即纠正";
 						item.nOKStatus = "立即纠正";
 						item.solveMethod = "立即纠正";
@@ -792,7 +712,7 @@
 								workDate: _workDate,
 								listSubId: _listSubId,
 								createDate: _createDate,
-								isTeamLeader:'是',
+								isTeamLeader: '是',
 								workStation: 'pad',
 								xml: _xml
 							};
