@@ -16,10 +16,6 @@
 			}
 			
 			.form-title {
-				/*position: fixed;
-				z-index: 10;
-				width: 100%;
-				background: white;*/
 				z-index: 999;
 				position: fixed;
 				width: 100%;
@@ -43,7 +39,7 @@
 				left: 5% !important;
 				/*top: 5%;*/
 				width: 90%;
-				height: 80%;
+				height: 90%;
 			}
 			
 			#areaPopover {
@@ -70,9 +66,20 @@
 				height: 80%;
 			}
 			
+			.md-box-shadow {
+				box-shadow: -2px 0 5px #3d08ec, 0 -2px 5px #3d08ec, 0 2px 5px #3d08ec, 2px 0 5px #3d08ec;
+			}
+			
 			.isActive {
-				border: solid 1px red;
-				box-shadow: 10px 10px 5px #ef0f07;
+				/*border: solid 1px red;
+				box-shadow: 10px 10px 5px #ef0f07;*/
+				background-color: #0062cc;
+			}
+			
+			.isActive:hover {
+				-webkit-transition: border linear .2s, -webkit-box-shadow linear .5s;
+				border-color: rgba(141, 39, 142, .75);
+				-webkit-box-shadow: 0 0 18px rgba(111, 1, 32, 3);
 			}
 			
 			.indexed-list a {
@@ -83,7 +90,7 @@
 				margin: 0px;
 				line-height: 15px;
 				color: #aaa;
-				line-height: 1.7rem;
+				line-height: 2.5rem;
 			}
 			
 			.select_letter {
@@ -93,25 +100,6 @@
 			.mui-table-view-cell.mui-active {
 				background-color: transparent;
 			}
-			/*.mui-popover {
-				position: absolute;
-				z-index: 999;
-				display: none;
-				width: 280px;
-				height: 80%;
-				width: 80%;
-				-webkit-transition: opacity .3s;
-				transition: opacity .3s;
-				-webkit-transition-property: opacity;
-				transition-property: opacity;
-				-webkit-transform: none;
-				transform: none;
-				opacity: 0;
-				border-radius: 7px;
-				background-color: #f7f7f7;
-				-webkit-box-shadow: 0 0 15px rgba(0, 0, 0, .1);
-				box-shadow: 0 0 15px rgba(0, 0, 0, .1);
-			}*/
 			
 			.md-background {
 				height: 100%;
@@ -238,6 +226,78 @@
 				margin: auto;
 				margin-top: 1rem;
 			}
+			
+			.md-ap-content {
+				display: flex;
+				height: 98%;
+			}
+			
+			.md-ap-inner-content {
+				flex: 9;
+				height: 100%;
+			}
+			
+			.md-ap-inner-content2 {
+				display: flex;
+				height: 100%;
+			}
+			
+			.md-ap-inner-left {
+				flex: 2;
+				height: 100%;
+			}
+			
+			.md-ap-left-title {
+				color: black;
+				margin-top: .5rem;
+			}
+			
+			.md-ap-left-wrapper {
+				height: 90%;
+				position: relative;
+			}
+			
+			.md-ap-left-wrapper-li {
+				width: 100%;
+				background: #ccc !important;
+				padding-bottom: .5rem !important;
+				padding-top: .5rem !important;
+				margin-bottom: .5rem;
+				/*border: solid 1px;
+				border-left-color: transparent;
+				border-top-color: transparent;
+				border-right-color: transparent;
+				border-bottom-color: #c8c7cc;*/
+			}
+			
+			.md-ap-left-wrapper-des {
+				font-size: 1rem;
+				color: black;
+			}
+			
+			.md-ap-inner-left-ensure {
+				color: white;
+				z-index: 999;
+				background: #0062cc;
+				width: 100%;
+				font-size: 1.2rem;
+				padding-top: .5rem;
+				padding-bottom: .5rem;
+			}
+			
+			.md-ap-inner-right {
+				flex: 5;
+				height: 100%;
+			}
+			
+			.md-ap-inner-right-bac {
+				background: #2387f4;
+			}
+			
+			.md-ap-inner-right-text {
+				font-size: 1rem;
+				color: white;
+			}
 		</style>
 	</head>
 
@@ -327,31 +387,31 @@
 				<!--<div class="mui-input-row mui-search md-ap-search" style="">
 					<input type="search" v-model="teamUsers" class="" placeholder="" v-on:input="searchTeamUser">
 				</div>-->
-				<div class="mui-content" style="display: flex;height: 90%;">
-					<div class="mui-content" id="refreshData" style="flex:9;height: 100%;">
-						<div class="mui-content" style="display: flex;height: 100%;">
-							<div style="flex: 2;height: 100%;">
-								<p class="mui-text-center" style="color: black;margin-top: .5rem;">已选人员</p>
-								<div class="mui-content mui-scroll-wrapper" style="height: 90%;position: relative;">
+				<div class="mui-content md-ap-content">
+					<div class="mui-content md-ap-inner-content" id="refreshData">
+						<div class="mui-content md-ap-inner-content2">
+							<div class="md-ap-inner-left">
+								<p class="mui-text-center md-ap-left-title">已选人员</p>
+								<div class="mui-content mui-scroll-wrapper md-ap-left-wrapper">
 									<div class="mui-scroll">
 										<ul class="mui-table-view mui-grid-view">
-											<li class="mui-table-view-cell mui-media mui-col-xs-6" style="    width: 100%;background: #ccc;padding-bottom: .5rem;padding-top: .5rem;margin-bottom: .5rem;" v-for="(selected,index) in selectAssessors" @tap="onTapCancleSelectAssessor(selected,index)">
-												<span style="font-size:1rem;color: black;" v-text="selected.userDescription"></span>
+											<li class="mui-table-view-cell mui-media mui-col-xs-6 md-ap-left-wrapper-li" v-for="(selected,index) in selectAssessors" @tap="onTapCancleSelectAssessor(selected,index)">
+												<span class="md-ap-left-wrapper-des" v-text="selected.userDescription"></span>
 											</li>
 										</ul>
 									</div>
 								</div>
-								<button class="mui-text-center" style="color: #aaa;z-index: 999;background: #eb2f1b;width: 100%;font-size: 1.2rem;padding-top: .5rem; padding-bottom: .5rem;" @tap="onTapSureSelect">确认所选人员</button>
+								<button class="mui-text-center md-ap-inner-left-ensure" @tap="onTapSureSelect">确认所选人员</button>
 							</div>
-							<div style="flex: 5;height: 100%;">
+							<div class="md-ap-inner-right">
 								<div class="mui-content mui-scroll-wrapper" style="height: 100%;position: relative;">
 									<div class="mui-scroll">
 										<!--<div class="mui-text-center" >没有数据</div>-->
 										<ul class="mui-table-view mui-grid-view">
 											<li class="mui-table-view-cell mui-media mui-col-xs-4" v-for="(teamUser,index) in teamUsers" @tap="onTapSelectAssessorItem(teamUser,index)">
-												<div class="mui-card" style="       background: #2387f4;">
+												<div class="mui-card md-ap-inner-right-bac" :class="{'md-box-shadow':teamUser.isActive}">
 													<div class="mui-card-header mui-card-media" :class="{isActive:teamUser.isActive}">
-														<span style="font-size:1rem;color: white;" v-text="teamUser.userDescription"></span>
+														<span class="md-ap-inner-right-text" v-text="teamUser.userDescription"></span>
 													</div>
 												</div>
 											</li>
@@ -362,7 +422,7 @@
 						</div>
 					</div>
 					<div class="indexed-list" style="flex: 1;margin: .5rem;">
-						<a v-for="(letter,index) in letters" :class="{select_letter:letter.isSelect}" @tap="selectLetter(letter,index)" style="font-weight: bold;">{{letter.name}}</a>
+						<a v-for="(letter,index) in letters" :class="{select_letter:letter.isSelect}" @tap="selectLetter(letter,index)" style="font-size: 2vh;color: black;">{{letter.name}}</a>
 					</div>
 				</div>
 			</div>
@@ -562,23 +622,23 @@
 						_this.lpaUser = _userData.userDescription;
 						_this.classes = _itemList.classes;
 						//_this.selectAssessors = _itemList.field03.split(";");
-						if(_itemList.field02 == null || _itemList.field02 == ''){
+						if(_itemList.field02 == null || _itemList.field02 == '') {
 							mAjax(_url + "learServer/getAllUsersByFactory", {
 								departmentId: ''
 							}, function(data) {
 								_this.teamUsers = data.data;
 								_this.teamUsers2 = _this.teamUsers;
 							})
-						}else{
+						} else {
 							var _selectedNo = _itemList.field02.split(";");
 							mAjax(_url + "learServer/getAllUsersByFactory", {
 								departmentId: ''
 							}, function(data) {
-								for(var i=0;i<data.data.length;i++){
-									for(var m=0;m<_selectedNo.length;m++){
-										if(data.data[i].userName == _selectedNo[m]){
+								for(var i = 0; i < data.data.length; i++) {
+									for(var m = 0; m < _selectedNo.length; m++) {
+										if(data.data[i].userName == _selectedNo[m]) {
 											data.data[i].isActive = true;
-											_this.maps.set(data.data[i].userId,data.data[i])
+											_this.maps.set(data.data[i].userId, data.data[i])
 										}
 									}
 								}
@@ -589,7 +649,7 @@
 								_this.teamUsers2 = _this.teamUsers;
 							})
 						}
-						
+
 						mAjax(_url + 'learServer/getPerItemDetail', {
 							userName: _userData.userName,
 							date: FormatDateYMD(_itemList.workDate),
@@ -766,7 +826,6 @@
 								item2.isSelect = false;
 							}
 						})
-						//console.log(_this.user2)
 						_this.teamUsers = _this.teamUsers2;
 						_this.teamUsers = _this.onFilter(_this.teamUsers, item1);
 					},
@@ -848,7 +907,7 @@
 								_arr2.push(item1);
 							})
 							var _xml = toXmlForDataFilters(_arr2);
-								//console.log(_xml);
+							//console.log(_xml);
 							//return;
 							var _params = {
 								userName: _userData.userName,
@@ -902,89 +961,94 @@
 											},
 											success: function(data) {
 												if(data.success == 1) {
-													for(var n = 0; n < _this.selectAssessors.length; n++) {
-														var _params2 = {
-															userName: _this.selectAssessors[n].userName,
-															workDate: _workDate,
-															listSubId: _listSubId,
-															createDate: _createDate,
-															isTeamLeader: '否',
-															workStation: 'pad',
-															xml: _xml
-														};
-														var _params3 = {
-															taskUsername: _this.selectAssessors[n].userName,
-															workDate: _workDate,
-															month: _month,
-															listName: _listName,
-															listId: _listSubId,
-															groupId: _groupId,
-															stepName: _stepName,
-															stepId: _stepId,
-															groupName: _groupName
-														};
-														mui.ajax(_url + 'learServer/savePlanPerItemDetail', {
-															data: _params2,
-															dataType: 'json', //服务器返回json格式数据
-															type: 'post', //HTTP请求类型
-															async: false,
-															//timeout:10000,//超时时间设置为10秒；      
-															beforeSend: function() {
-																plus.nativeUI.showWaiting("加载中。。。");
-																mask.show(); //显示遮罩层
-															},
-															complete: function() {
-																plus.nativeUI.closeWaiting();
-																mask.close(); //关闭遮罩层
-															},
-															success: function(data) {
-																if(data.success == 1) {
-																	mui.ajax(_url + 'learServer/saveResult', {
-																		data: _params3,
-																		dataType: 'json', //服务器返回json格式数据
-																		type: 'post', //HTTP请求类型
-																		async: false,
-																		//timeout:10000,//超时时间设置为10秒；      
-																		beforeSend: function() {
-																			plus.nativeUI.showWaiting("加载中。。。");
-																			mask.show(); //显示遮罩层
-																		},
-																		complete: function() {
-																			plus.nativeUI.closeWaiting();
-																			mask.close(); //关闭遮罩层
-																		},
-																		success: function(data) {
-																			if(data.success == 1) {
-																				if(n == _this.selectAssessors.length - 1) {
-																					mui.toast('提交成功!');
-																					removeLsItem("lpaItemData")
-																					mui.back();
+													if(_this.selectAssessors.length == 0) {
+														mui.toast('提交成功!');
+														removeLsItem("lpaItemData")
+														mui.back();
+													} else {
+														for(var n = 0; n < _this.selectAssessors.length; n++) {
+															var _params2 = {
+																userName: _this.selectAssessors[n].userName,
+																workDate: _workDate,
+																listSubId: _listSubId,
+																createDate: _createDate,
+																isTeamLeader: '否',
+																workStation: 'pad',
+																xml: _xml
+															};
+															var _params3 = {
+																taskUsername: _this.selectAssessors[n].userName,
+																workDate: _workDate,
+																month: _month,
+																listName: _listName,
+																listId: _listSubId,
+																groupId: _groupId,
+																stepName: _stepName,
+																stepId: _stepId,
+																groupName: _groupName
+															};
+															mui.ajax(_url + 'learServer/savePlanPerItemDetail', {
+																data: _params2,
+																dataType: 'json', //服务器返回json格式数据
+																type: 'post', //HTTP请求类型
+																async: false,
+																//timeout:10000,//超时时间设置为10秒；      
+																beforeSend: function() {
+																	plus.nativeUI.showWaiting("加载中。。。");
+																	mask.show(); //显示遮罩层
+																},
+																complete: function() {
+																	plus.nativeUI.closeWaiting();
+																	mask.close(); //关闭遮罩层
+																},
+																success: function(data) {
+																	if(data.success == 1) {
+																		mui.ajax(_url + 'learServer/saveResult', {
+																			data: _params3,
+																			dataType: 'json', //服务器返回json格式数据
+																			type: 'post', //HTTP请求类型
+																			async: false,
+																			//timeout:10000,//超时时间设置为10秒；      
+																			beforeSend: function() {
+																				plus.nativeUI.showWaiting("加载中。。。");
+																				mask.show(); //显示遮罩层
+																			},
+																			complete: function() {
+																				plus.nativeUI.closeWaiting();
+																				mask.close(); //关闭遮罩层
+																			},
+																			success: function(data) {
+																				if(data.success == 1) {
+																					if(n == (_this.selectAssessors.length - 1)) {
+																						mui.toast('提交成功!');
+																						removeLsItem("lpaItemData")
+																						mui.back();
+																					}
+
 																				}
-
+																			},
+																			error: function(xhr, type, errorThrown) {
+																				//console.log("===========失败");
+																				mask.close(); //关闭遮罩层
+																				mui.toast("提交失败！");
 																			}
-																		},
-																		error: function(xhr, type, errorThrown) {
-																			//console.log("===========失败");
-																			mask.close(); //关闭遮罩层
-																			mui.toast("连接网络失败！");
-																		}
-																	})
+																		})
+																	}
+																},
+																error: function(xhr, type, errorThrown) {
+																	//console.log("===========失败");
+																	mask.close(); //关闭遮罩层
+																	mui.toast("提交失败！");
 																}
-															},
-															error: function(xhr, type, errorThrown) {
-																//console.log("===========失败");
-																mask.close(); //关闭遮罩层
-																mui.toast("连接网络失败！");
-															}
-														})
+															})
+														}
 													}
-
 												}
 											},
 											error: function(xhr, type, errorThrown) {
 												//console.log("===========失败");
 												mask.close(); //关闭遮罩层
-												mui.toast("连接网络失败！");
+												mui.toast("提交失败！");
 											}
 										})
 									}
