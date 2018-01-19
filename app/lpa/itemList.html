@@ -153,7 +153,7 @@
 			}
 			
 			.wrapper-padding {
-				padding-top: 15rem;
+				padding-top: 20rem;
 				padding-bottom: 4.5rem;
 			}
 			
@@ -324,9 +324,9 @@
 				</div>
 			</div>
 			<div id="assessorPopover" class="mui-popover">
-				<div class="mui-input-row mui-search md-ap-search" style="">
+				<!--<div class="mui-input-row mui-search md-ap-search" style="">
 					<input type="search" v-model="teamUsers" class="" placeholder="" v-on:input="searchTeamUser">
-				</div>
+				</div>-->
 				<div class="mui-content" style="display: flex;height: 90%;">
 					<div class="mui-content" id="refreshData" style="flex:9;height: 100%;">
 						<div class="mui-content" style="display: flex;height: 100%;">
@@ -414,7 +414,7 @@
 					letters: [{
 						id: 1,
 						name: 'A',
-						isSelect: true
+						isSelect: false
 					}, {
 						id: 2,
 						name: 'B',
@@ -561,18 +561,35 @@
 						_this.lpaDate = (_itemList.workDate != null) ? FormatDateYMD(_itemList.workDate) : FormatDateYMD(new Date());
 						_this.lpaUser = _userData.userDescription;
 						_this.classes = _itemList.classes;
-						mAjax(_url + "learServer/getAllUsersByFactory", {
-							departmentId: ''
-						}, function(data) {
-							/*for(var i=0;i<data.data.length;i++){
-								data.data[i].isActive = false;
-							}*/
-							_this.teamUsers = data.data;
-							_this.teamUsers2 = _this.teamUsers;
-							//console.log(data);
-						})
-						//console.log(_itemList);
-						//_this.formTitle = "产线:" + _itemList.field01 + " 区域:" + _itemList.field02 + " 工位:" + _itemList.field03;
+						//_this.selectAssessors = _itemList.field03.split(";");
+						if(_itemList.field02 == null || _itemList.field02 == ''){
+							mAjax(_url + "learServer/getAllUsersByFactory", {
+								departmentId: ''
+							}, function(data) {
+								_this.teamUsers = data.data;
+								_this.teamUsers2 = _this.teamUsers;
+							})
+						}else{
+							var _selectedNo = _itemList.field02.split(";");
+							mAjax(_url + "learServer/getAllUsersByFactory", {
+								departmentId: ''
+							}, function(data) {
+								for(var i=0;i<data.data.length;i++){
+									for(var m=0;m<_selectedNo.length;m++){
+										if(data.data[i].userName == _selectedNo[m]){
+											data.data[i].isActive = true;
+											_this.maps.set(data.data[i].userId,data.data[i])
+										}
+									}
+								}
+								_this.maps.forEach(function(value, key) {
+									_this.selectAssessors.push(value);
+								})
+								_this.teamUsers = data.data;
+								_this.teamUsers2 = _this.teamUsers;
+							})
+						}
+						
 						mAjax(_url + 'learServer/getPerItemDetail', {
 							userName: _userData.userName,
 							date: FormatDateYMD(_itemList.workDate),
@@ -800,7 +817,6 @@
 							for(var k = 0; k < _arr.length; k++) {
 								for(var n = 0; n < _lpaItemData.length; n++) {
 									if((_arr[k].itemSubId == _lpaItemData[n].nokFormData.itemSubId) && (_arr[k].auditResult == "不符合")) {
-										//console.log(111111);
 										_arr[k] = _lpaItemData[n].nokFormData
 									}
 								}
@@ -832,7 +848,7 @@
 								_arr2.push(item1);
 							})
 							var _xml = toXmlForDataFilters(_arr2);
-							//	console.log(_xml);
+								//console.log(_xml);
 							//return;
 							var _params = {
 								userName: _userData.userName,
@@ -858,7 +874,7 @@
 								data: _params,
 								dataType: 'json', //服务器返回json格式数据
 								type: 'post', //HTTP请求类型
-								async: true,
+								async: false,
 								//timeout:10000,//超时时间设置为10秒；      
 								beforeSend: function() {
 									plus.nativeUI.showWaiting("加载中。。。");
@@ -874,7 +890,7 @@
 											data: _params1,
 											dataType: 'json', //服务器返回json格式数据
 											type: 'post', //HTTP请求类型
-											async: true,
+											async: false,
 											//timeout:10000,//超时时间设置为10秒；      
 											beforeSend: function() {
 												plus.nativeUI.showWaiting("加载中。。。");
@@ -886,9 +902,9 @@
 											},
 											success: function(data) {
 												if(data.success == 1) {
-													for(var k = 0; k < _this.selectAssessors[i].length; k++) {
-														var _params = {
-															userName: _this.selectAssessors[i].userName,
+													for(var n = 0; n < _this.selectAssessors.length; n++) {
+														var _params2 = {
+															userName: _this.selectAssessors[n].userName,
 															workDate: _workDate,
 															listSubId: _listSubId,
 															createDate: _createDate,
@@ -896,8 +912,8 @@
 															workStation: 'pad',
 															xml: _xml
 														};
-														var _params1 = {
-															taskUsername: _this.selectAssessors[i].userName,
+														var _params3 = {
+															taskUsername: _this.selectAssessors[n].userName,
 															workDate: _workDate,
 															month: _month,
 															listName: _listName,
@@ -908,10 +924,10 @@
 															groupName: _groupName
 														};
 														mui.ajax(_url + 'learServer/savePlanPerItemDetail', {
-															data: _params,
+															data: _params2,
 															dataType: 'json', //服务器返回json格式数据
 															type: 'post', //HTTP请求类型
-															async: true,
+															async: false,
 															//timeout:10000,//超时时间设置为10秒；      
 															beforeSend: function() {
 																plus.nativeUI.showWaiting("加载中。。。");
@@ -924,10 +940,10 @@
 															success: function(data) {
 																if(data.success == 1) {
 																	mui.ajax(_url + 'learServer/saveResult', {
-																		data: _params1,
+																		data: _params3,
 																		dataType: 'json', //服务器返回json格式数据
 																		type: 'post', //HTTP请求类型
-																		async: true,
+																		async: false,
 																		//timeout:10000,//超时时间设置为10秒；      
 																		beforeSend: function() {
 																			plus.nativeUI.showWaiting("加载中。。。");
@@ -939,7 +955,7 @@
 																		},
 																		success: function(data) {
 																			if(data.success == 1) {
-																				if(k == _this.selectAssessors[i].length - 1) {
+																				if(n == _this.selectAssessors.length - 1) {
 																					mui.toast('提交成功!');
 																					removeLsItem("lpaItemData")
 																					mui.back();
