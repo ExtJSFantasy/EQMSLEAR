@@ -141,7 +141,7 @@
 			}
 			
 			.wrapper-padding {
-				padding-top: 20rem;
+				padding-top: 15.5rem;
 				padding-bottom: 4.5rem;
 			}
 			
@@ -344,7 +344,7 @@
 							<input class="label-input-arrow" v-model="field03" readonly type="text" @tap="selectTeamUsers">
 						</div>
 					</div>
-					<div class="form-item">
+					<div class="form-item mui-hidden">
 						<div class="mui-input-row item-flex">
 							<label class="label-end">小组成员编号:</label>
 							<input class="label-input-gray" v-model="field02" style="background: white !important;color: black;" type="text" style="font-size: 1rem;" readonly>
@@ -623,16 +623,20 @@
 						_this.classes = _itemList.classes;
 						//_this.selectAssessors = _itemList.field03.split(";");
 						if(_itemList.field02 == null || _itemList.field02 == '') {
-							mAjax(_url + "learServer/getAllUsersByFactory", {
-								departmentId: ''
+							mAjax(_url + "learServer/getTeamUsers", {
+								userName:_userData.userName,
+								sMonth: _itemList.month,
+								listName: _itemList.listName
 							}, function(data) {
 								_this.teamUsers = data.data;
 								_this.teamUsers2 = _this.teamUsers;
 							})
 						} else {
-							var _selectedNo = _itemList.field02.split(";");
-							mAjax(_url + "learServer/getAllUsersByFactory", {
-								departmentId: ''
+							var _selectedNo = _itemList.field02.split(",");
+							mAjax(_url + "learServer/getTeamUsers", {
+								userName:_userData.userName,
+								sMonth: _itemList.month,
+								listName: _itemList.listName
 							}, function(data) {
 								for(var i = 0; i < data.data.length; i++) {
 									for(var m = 0; m < _selectedNo.length; m++) {
@@ -795,8 +799,8 @@
 							_arr.push(_this.selectAssessors[i].userDescription);
 							_arr2.push(_this.selectAssessors[i].userName);
 						}
-						_this.field03 = _arr.join(";"); //_arr.toString();
-						_this.field02 = _arr2.join(";");
+						_this.field03 = _arr.join(","); //_arr.toString();
+						_this.field02 = _arr2.join(",");
 						//_this.assessors = JSON.stringify(_this.selectAssessors.userDescription).toString();
 						mui('#assessorPopover').popover('toggle');
 					},

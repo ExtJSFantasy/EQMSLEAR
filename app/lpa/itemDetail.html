@@ -472,6 +472,9 @@
 						_this.itemList.solver = _this.solver;
 						_this.itemList.solveMethod = "当即整改";
 						_this.itemList.nOKStatus = "不符合";
+						
+						//保存计划关闭日期
+						//var _productDate = document.getElementById('productDate').value;
 						var _lpaItemData = JSON.parse(getLsItem("lpaItemData"));
 						var _nowData = {};
 						for(var i = 0; i < _lpaItemData.length; i++) {
@@ -504,6 +507,8 @@
 						//_this.itemList.classes = _this.classes;
 						_this.itemList.solveMethod = "上升问题流";
 						_this.itemList.nOKStatus = "上升问题流";
+						//保存计划关闭日期
+						//var _productDate = document.getElementById('productDate').value;
 						//_this.itemList.nOKStatus = "分层审核问题";
 						var _lpaItemData = JSON.parse(getLsItem("lpaItemData"));
 						var _nowData = {};
